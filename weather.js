@@ -18,8 +18,36 @@ btn.addEventListener("click", async function(params) {
     } else{
         show.style.display = 'block';
         let cityname=input.value;
+        console.log(cityname);
         weatherDetails(cityname);
     }
+    
+})
+
+loc.addEventListener("click", async function(params) {
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+    const lat = pos.coords.latitude;
+    const lon = pos.coords.longitude;
+    const url = `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${apiKey}`;
+
+    const res = await fetch(url);
+    const data = await res.json();
+    console.log(pos.coords.accuracy);
+    if(pos.coords.accuracy>1000){
+        alert("GPS may be OFF. Turn on GPS for exact city weather");
+    } else{
+        if (data.length > 0) {
+            alert("Your City: " + data[0].name);
+            let cityname= data[0].name;
+            // console.log(cityname);
+            weatherDetails(cityname);
+        } else {
+            alert("City not found");
+        }
+    }
+  }, (err) => {
+    alert("Location error: " + err.message);
+  });
     
 })
 async function weatherDetails(cityname) {
