@@ -18,13 +18,16 @@ btn.addEventListener("click", async function(params) {
     } else{
         show.style.display = 'block';
         let cityname=input.value;
-        const response= await fetch(apiurl+apiKey+`&q=${cityname}`);
+        weatherDetails(cityname);
+    }
+    
+})
+async function weatherDetails(cityname) {
+    const response= await fetch(apiurl+apiKey+`&q=${cityname}`);
         const data= await response.json();
         temp.innerHTML=Math.round(data.main.temp)+"°c";
         city.innerHTML=data.name;
         humidity.textContent=data.main.humidity+"%";
         windspd.innerHTML=data.win.speed +"km/h";
         let weather=data.weather[0].main;
-    }
-    
-})
+}
