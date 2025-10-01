@@ -16,7 +16,7 @@ btn.addEventListener("click", async function(params) {
     } else{
         show.style.display = 'block';
         let cityname=input.value;
-        console.log(cityname);
+        // console.log(cityname);
         weatherDetails(cityname);
     }
     
@@ -53,28 +53,29 @@ async function weatherDetails(cityname) {
         temp.innerHTML=Math.round(data.main.temp)+"°c";
         city.innerHTML=data.name;
         humidity.textContent=data.main.humidity+"%";
-        windspd.innerHTML=data.win.speed +"km/h";
+        windspd.innerHTML=data.wind.speed +"km/h";
         let weather=data.weather[0].main;
+        showWeather(weather);
 }
 function showWeather(weather) {
-  let animPath = "";
-  if (weather === "Rain") {
-    animPath = "rain.json"; 
-  } else if (weather === "Clouds") {
-    animPath = "cloud.json";
-  } else if (weather === "Clear") {
-    animPath = "sunny.json";
-  } else if (weather === "Thunderstorm") {
-    animPath = "thunder.json";
-  } else {
-    animPath = "default.json";
-  }
-  document.getElementById("weather-anim").innerHTML = "";
-  lottie.loadAnimation({
-    container: document.getElementById("weather-anim"),
-    renderer: "svg",
-    loop: true,
-    autoplay: true,
-    path: animPath 
-  });
+    let animPath = "";
+    if (weather === "Rain") {
+        animPath = "rain.json"; 
+    } else if (weather === "Clouds") {
+        animPath = "cloudy.json";
+    } else if (weather === "Clear") {
+        animPath = "sunny.json";
+    } else if (weather === "Thunderstorm") {
+        animPath = "thunder.json";
+    } else {
+        animPath = "default.json";
+    }
+    document.getElementById("weather-anim").innerHTML = "";
+    lottie.loadAnimation({
+        container: document.getElementById("weather-anim"),
+        renderer: "svg",
+        loop: true,
+        autoplay: true,
+        path: `Images/${animPath}`
+    });
 }
