@@ -9,8 +9,6 @@ let windspd = document.querySelector(".speed");
 
 const apiurl= "https://api.openweathermap.org/data/2.5/weather?&units=metric&appid=";
 const apiKey= "40a54fd2dddd5d540da018c9372ce9b4";
-const geoapiurl="https://ipinfo.io/json?token=";
-const geoapikey="dbfbd0968fe7af";
 
 btn.addEventListener("click", async function(params) {
     if(input.value.length==0){
@@ -37,7 +35,7 @@ loc.addEventListener("click", async function(params) {
         alert("GPS may be OFF. Turn on GPS for exact city weather");
     } else{
         if (data.length > 0) {
-            alert("Your City: " + data[0].name);
+            // alert("Your City: " + data[0].name);
             let cityname= data[0].name;
             // console.log(cityname);
             weatherDetails(cityname);
@@ -47,8 +45,7 @@ loc.addEventListener("click", async function(params) {
     }
   }, (err) => {
     alert("Location error: " + err.message);
-  });
-    
+  });  
 })
 async function weatherDetails(cityname) {
     const response= await fetch(apiurl+apiKey+`&q=${cityname}`);
@@ -58,4 +55,26 @@ async function weatherDetails(cityname) {
         humidity.textContent=data.main.humidity+"%";
         windspd.innerHTML=data.win.speed +"km/h";
         let weather=data.weather[0].main;
+}
+function showWeather(weather) {
+  let animPath = "";
+  if (weather === "Rain") {
+    animPath = "rain.json"; 
+  } else if (weather === "Clouds") {
+    animPath = "cloud.json";
+  } else if (weather === "Clear") {
+    animPath = "sunny.json";
+  } else if (weather === "Thunderstorm") {
+    animPath = "thunder.json";
+  } else {
+    animPath = "default.json";
+  }
+  document.getElementById("weather-anim").innerHTML = "";
+  lottie.loadAnimation({
+    container: document.getElementById("weather-anim"),
+    renderer: "svg",
+    loop: true,
+    autoplay: true,
+    path: animPath 
+  });
 }
