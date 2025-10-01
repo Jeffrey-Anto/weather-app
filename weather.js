@@ -56,12 +56,15 @@ async function weatherDetails(cityname) {
         windspd.innerHTML=data.wind.speed +"km/h";
         let weather=data.weather[0].main;
         showWeather(weather);
+        console.log(weather);
 }
 function showWeather(weather) {
+    console.log(weather);
     let animPath = "";
     if (weather === "Rain") {
         animPath = "rain.json"; 
     } else if (weather === "Clouds") {
+        console.log(weather);
         animPath = "cloudy.json";
     } else if (weather === "Clear") {
         animPath = "sunny.json";
@@ -78,4 +81,38 @@ function showWeather(weather) {
         autoplay: true,
         path: `Images/${animPath}`
     });
+    document.querySelector(".humidity-anim").innerHTML = "";
+    lottie.loadAnimation({
+        container: document.querySelector(".humidity-anim"),
+        renderer: "svg",
+        loop: true,
+        autoplay: true,
+        path: `Images/humidity.json`
+    });
+    document.querySelector(".wind-anim").innerHTML = "";
+    lottie.loadAnimation({
+        container: document.querySelector(".wind-anim"),
+        renderer: "svg",
+        loop: true,
+        autoplay: true,
+        path: `Images/wind.json`
+    });
 }
+function createStar(){
+    const container= document.querySelector('.star-container');
+    for(let i=0; i<1000;i++){
+        const star= document.createElement("div");
+        star.className="star";
+        star.style.top= `${Math.random()*100}vh`;
+        star.style.left= `${Math.random()*100}vw`;
+        const size= Math.random()*2+1;
+        star.style.width=`${size}px`;
+        star.style.height=`${size}px`;
+        if(Math.random()>0.7){
+            star.classList.add("twinkling");
+            star.style.animationDelay=`${Math.random()*3}`;
+        }
+        container.appendChild(star);
+    }
+}
+createStar(); 
